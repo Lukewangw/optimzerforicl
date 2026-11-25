@@ -10,6 +10,11 @@ small transformer that has to *learn* to use the examples in its context. This p
 came out. It is a snapshot of work in progress (November 2026): one architecture, one training set, eighteen ViT
 runs.
 
+**Final results.** The study has since grown to 48 runs, with five seeds of each main setting and control runs
+that locate the difference in the model. The final numbers and the figures used in the course report are in
+[results/report/](results/report/README.md). Where they differ from the three-seed numbers on this page, the
+five-seed numbers are the ones to use.
+
 ## In short
 
 - **On the classes it was trained on, Muon ends 2.1 points above the AdamW recipe and SGD 2.1 below, and three
@@ -243,4 +248,5 @@ All sequence models read `pre_logits` features, the layer on which the Muon ViT 
 ## In this repository
 
 `icl/` is the code behind every number above, with its tests; `results/` holds every figure and the table it was
-drawn from, by round.
+drawn from, by round. `results/report/` holds the final five-seed results: the report's figures, the script that
+draws them and the numbers they are drawn from.
