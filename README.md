@@ -3,7 +3,8 @@
 **AdamW, Muon and SGD on a ViT-S/16 trained from scratch, tested on classes it never saw.**
 
 This repository holds the results of the study: its figures, the write-up ([REPORT.md](REPORT.md)), the script
-that draws the figures and the numbers they are drawn from. It is the vision-transformer part (Section 6 and
+that draws the figures, the numbers they are drawn from, and the code that trained and tested the models
+(`icl/`). It is the vision-transformer part (Section 6 and
 Appendix G) of a course report on how the optimizer shapes in-context learning. The report's first part, in-context regression and ciphers in small
 sequence models, is at https://github.com/EshMis/optimizer-icl.
 
@@ -90,10 +91,33 @@ It needs only `numpy` and `matplotlib` and reads `data/vit_page_data.json`. Ever
 in `numbers.md` comes from that file; none is typed into the script. Colors and plot style are those of the
 report's regression figures.
 
+## Code
+
+`icl/` is the code of the study, with its tests. It runs from the repository root as `python -m icl.<module>`
+and needs `numpy`, `torch` (a version that has `torch.optim.Muon`) and `Pillow`; the analysis scripts also use
+`matplotlib` and `scipy`.
+
+| Files in `icl/` | What they do |
+|---|---|
+| `train.py`, `vit.py`, `optim.py` | Train the ViT-S/16 from scratch with AdamW, Muon or SGD. Runs with the same seeds start from the same weights and see the same images in the same order. |
+| `o365.py`, `pack.py`, `data.py`, `aug.py`, `anchors.py` | Data: Objects365 turned into one-label cut-outs, packed into flat files, with classes held out and the recipe's augmentation; a check of a test set's class numbering. |
+| `fewshot.py`, `features.py` | The few-shot test on frozen features, at every checkpoint of a run. |
+| `probe.py`, `linear.py`, `cka.py` | Read-outs after every layer (few-shot accuracy, the rank of the features, saturation of the last hidden layer, weight spectra), the ridge classifier, and how alike the layers of different runs are. |
+| `why.py`, `seeds.py`, `summary.py`, `curves.py`, `flops.py` | Analysis of finished runs: seed-by-seed comparisons, curves along training, compute. |
+| `seq.py`, `seqcross.py`, `seqseries.py`, `seqsummary.py` | The small transformer that learns to use examples on frozen ViT features (Appendix G.6 of the report). |
+| `results/robust/robust.py`, `results/page_data.py` | The statistics of Section 6 and Appendix G, and the script that gathers every number into the data file behind the figures. |
+| `RECIPE.md` | Every training setting and where it comes from in the big_vision source. |
+| `tests/` | The test suite: `python -m pytest icl/tests`. |
+
+The analysis scripts read the per-run read-outs from `icl/results/data/runs/`, which are not in this repository.
+They show how each number was computed, but they cannot be rerun from the repository alone.
+
 ## What is here and what is not
 
-- **Here:** the write-up (`REPORT.md`), the figures, `make_figs.py`, `numbers.md`, and `data/vit_page_data.json`: per-seed end-of-training
+- **Here:** the write-up (`REPORT.md`), the code (`icl/`), the figures, `make_figs.py`, `numbers.md`, and
+  `data/vit_page_data.json`: per-seed end-of-training
   values, means and seed ranges at the 17 checkpoints, and the per-test, per-layer and control-run differences
   with their intervals. `extract_data.py` records how the data file was taken from the study's results page.
-- **Not here:** the training and evaluation code, the per-run read-outs and the model checkpoints. The data
-  file was computed from the per-run read-outs by the study's own analysis scripts.
+- **Not here:** the images, the per-run read-outs and logs, the model checkpoints, the job scripts for the
+  cluster the runs were made on, and the source of the study's results page. The data file was computed from
+  the per-run read-outs by the analysis scripts in `icl/`.

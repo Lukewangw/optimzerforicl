@@ -1,0 +1,59 @@
+{
+ "num_classes": 365,
+ "groups": {
+  "dog": [
+   99
+  ],
+  "control": [
+   5,
+   36,
+   47,
+   63,
+   76,
+   95,
+   108,
+   124,
+   157,
+   158,
+   168,
+   179,
+   185,
+   242,
+   276,
+   290,
+   295,
+   305,
+   316,
+   363
+  ]
+ },
+ "control_seed": 0,
+ "note": "Objects365 cut-outs (o365.py, classes sorted by name). 'dog' is never shown in training: every photo with a Dog, Cat or Lion gives cut-outs of those classes only. 'control' is 20 classes drawn with seed 0 from the 206 classes that have at least 1,000 boxes of 64 px or more, leaving out Dog, Cat, Lion and Person; they are never labelled in training but can appear in the background of other cut-outs.",
+ "class_names": {
+  "dog": [
+   "Dog"
+  ],
+  "control": [
+   "Apple",
+   "Bowl/Basin",
+   "Cabinet/Shelf",
+   "Chair",
+   "Computer Box",
+   "Desk",
+   "Egg",
+   "Flower",
+   "Head Phone",
+   "Heavy Truck",
+   "Ice cream",
+   "Lamp",
+   "Lifesaver",
+   "Pizza",
+   "Scooter",
+   "Slippers",
+   "Speaker",
+   "Strawberry",
+   "Tablet",
+   "Zebra"
+  ]
+ }
+}
